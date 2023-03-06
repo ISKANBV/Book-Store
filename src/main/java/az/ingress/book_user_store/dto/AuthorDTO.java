@@ -1,0 +1,18 @@
+package az.ingress.book_user_store.dto;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class AuthorDTO extends AbstractDTO {
+    private Integer id;
+
+    @NotEmpty
+    @Size(min = 1, max = 100)
+    private String name;
+}

@@ -1,0 +1,36 @@
+databaseChangeLog:
+  -  changeSet:
+       id: 20230301-03
+       author:  ismayil_nebiyev
+       changes:
+         -  createTable:
+              tableName:  role_user
+              columns:
+                - column:
+                    constraints:
+                      nullable: false
+                    name: user_id
+                    type: BIGINT
+                - column:
+                    constraints:
+                      nullable: false
+                    name: role_id
+                    type: BIGINT
+
+
+         - addForeignKeyConstraint:
+             baseTableName: role_user
+             baseColumnNames: user_id
+             referencedTableName: users
+             constraintName: fk_role_user_user_id
+             referencedColumnNames: id
+             onDelete: CASCADE
+
+
+         - addForeignKeyConstraint:
+             baseTableName: role_user
+             baseColumnNames: role_id
+             referencedTableName: roles
+             constraintName: fk_role_user_role_id
+             referencedColumnNames: id
+             onDelete: CASCADE

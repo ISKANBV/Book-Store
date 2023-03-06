@@ -1,0 +1,36 @@
+databaseChangeLog:
+  -  changeSet:
+       id: 20230301-06
+       author:  ismayil_nebiyev
+       changes:
+         -  createTable:
+              tableName:  book_author
+              columns:
+                - column:
+                    constraints:
+                      nullable: false
+                    name: book_id
+                    type: BIGINT
+                - column:
+                    constraints:
+                      nullable: false
+                    name: author_id
+                    type: BIGINT
+
+
+         - addForeignKeyConstraint:
+             baseTableName: book_author
+             baseColumnNames: book_id
+             referencedTableName: books
+             constraintName: fk_book_author_book_id
+             referencedColumnNames: id
+             onDelete: CASCADE
+
+
+         - addForeignKeyConstraint:
+             baseTableName: book_author
+             baseColumnNames: author_id
+             referencedTableName: authors
+             constraintName: fk_book_author_author_id
+             referencedColumnNames: id
+             onDelete: CASCADE

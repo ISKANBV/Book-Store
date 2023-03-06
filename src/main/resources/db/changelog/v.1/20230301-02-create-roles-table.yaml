@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20230301-02
+      author: ismayil_nebiyev
+      comment: create roles table
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: roles_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)

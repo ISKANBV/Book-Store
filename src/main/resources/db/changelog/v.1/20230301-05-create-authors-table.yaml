@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20230301-05
+      author: ismayil_nebiyev
+      comment: create authors table
+      changes:
+        - createTable:
+            tableName: authors
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: authors_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(100)

@@ -1,0 +1,99 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.3'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.bmuschko.docker-remote-api' version "$dockerVersion" apply false
+//    id 'com.spotify.docker' version 'x.x.x' apply false
+}
+
+group = 'az.ingress'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    runtimeOnly 'com.h2database:h2'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    compileOnly 'org.hibernate:hibernate-jpamodelgen'
+    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
+
+    implementation "org.modelmapper:modelmapper:$modelmapperVersion"
+
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+
+    implementation("org.liquibase:liquibase-core:$liquibaseVersion") {
+        exclude group: 'ch.qos.logback'
+    }
+
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.5'
+
+    // https://mvnrepository.com/artifact/org.zalando/problem-spring-web
+    implementation group: 'org.zalando', name: 'problem-spring-web', version: '0.27.0'
+
+    implementation "junit:junit:$junitVersion"
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+def hash = 'git rev-parse --short HEAD'.execute().text.trim() //tag
+version = "$projectVersion.$hash"
+
+task dockerFile(type: Dockerfile, dependsOn: assemble) {
+    destFile.set(project.file('Dockerfile'))
+    from "alpine:$alpineVersion"
+    runCommand 'apk add --no-cache openjdk11'
+    copyFile "build/libs/${project.name}-${project.version}.jar", '/app/'
+    workingDir '/app/'
+    entryPoint 'java'
+    defaultCommand '-jar', "/app/${project.name}-${project.version}.jar"
+}
+
+task dockerBuild(type: DockerBuildImage, dependsOn: dockerFile) {
+    inputDir.set(file("$projectDir/."))
+    doLast {
+        println("creatig image: $dockerRepoUrl/lms3-${project.name}:$version")
+    }
+    images.add("$dockerRepoUrl/lms3-${project.name}:$version")
+}
+
+task dockerPush(type: DockerPushImage, dependsOn: dockerBuild) {
+    images.add("$dockerRepoUrl/lms3-${project.name}:$version")
+
+    registryCredentials.setUsername("$dockerHubUsername")
+    registryCredentials.setPassword("$dockerHubPassword")
+    registryCredentials.setEmail("$dockerHubEmail")
+}

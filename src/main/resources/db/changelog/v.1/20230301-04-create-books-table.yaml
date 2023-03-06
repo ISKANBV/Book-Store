@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20230301-04
+      author: ismayil_nebiyev
+      comment: create books table
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: books_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: LONGTEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: publisher_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: DECIMAL
