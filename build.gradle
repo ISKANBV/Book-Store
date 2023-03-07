@@ -1,9 +1,12 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.3'
-    id 'io.spring.dependency-management' version '1.1.0'
-    id 'com.bmuschko.docker-remote-api' version "$dockerVersion" apply false
-//    id 'com.spotify.docker' version 'x.x.x' apply false
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version "$springDependencyManagerVersion"
+    id 'com.bmuschko.docker-remote-api' version "$dockerVersion"
 }
 
 group = 'az.ingress'
@@ -23,6 +26,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.3'
+
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
@@ -31,8 +36,13 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    compileOnly 'org.hibernate:hibernate-jpamodelgen'
-    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
+//    compileOnly 'org.hibernate:hibernate-jpamodelgen'
+
+    compileOnly group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: '6.0.1.Final', ext: 'pom'
+
+//    annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: '6.1.7.Final', ext: 'pom'
+
+//    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
     implementation "org.modelmapper:modelmapper:$modelmapperVersion"
 
@@ -73,6 +83,7 @@ def hash = 'git rev-parse --short HEAD'.execute().text.trim() //tag
 version = "$projectVersion.$hash"
 
 task dockerFile(type: Dockerfile, dependsOn: assemble) {
+//    destFile.set(project.file('build/libs/Dockerfile'))
     destFile.set(project.file('Dockerfile'))
     from "alpine:$alpineVersion"
     runCommand 'apk add --no-cache openjdk11'
@@ -83,9 +94,10 @@ task dockerFile(type: Dockerfile, dependsOn: assemble) {
 }
 
 task dockerBuild(type: DockerBuildImage, dependsOn: dockerFile) {
+//    inputDir.set(file("$projectDir/build/libs/."))
     inputDir.set(file("$projectDir/."))
     doLast {
-        println("creatig image: $dockerRepoUrl/lms3-${project.name}:$version")
+        println("creatig image: $dockerRepoUrl/lms-${project.name}:$version")
     }
     images.add("$dockerRepoUrl/lms3-${project.name}:$version")
 }
@@ -97,3 +109,15 @@ task dockerPush(type: DockerPushImage, dependsOn: dockerBuild) {
     registryCredentials.setPassword("$dockerHubPassword")
     registryCredentials.setEmail("$dockerHubEmail")
 }
+
+//ext
+//        {
+//            // Directory for generated main Java soures.
+//            generatedMainJava = "${buildDir}/generated/main/java"
+//        }
+//
+//sourceSets
+//        {
+//            // Add generated sources directory.
+//            main.java.srcDir generatedMainJava
+//        }

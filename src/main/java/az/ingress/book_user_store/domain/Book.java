@@ -3,7 +3,7 @@ package az.ingress.book_user_store.domain;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 

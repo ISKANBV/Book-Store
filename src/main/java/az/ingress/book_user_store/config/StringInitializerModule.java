@@ -1,10 +1,10 @@
 package az.ingress.book_user_store.config;
 
+import az.ingress.book_user_store.util.StringUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.qamet.book_store.util.StringUtil;
 import java.io.IOException;
 
 

@@ -2,9 +2,9 @@ package az.ingress.book_user_store.dto;
 
 import az.ingress.book_user_store.domain.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;

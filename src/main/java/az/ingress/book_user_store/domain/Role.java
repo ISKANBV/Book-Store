@@ -1,7 +1,7 @@
 package az.ingress.book_user_store.domain;
 
 import az.ingress.book_user_store.domain.enumeration.RoleName;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
