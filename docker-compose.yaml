@@ -1,6 +1,29 @@
-version: "3.4"
+version: "3"
 
 services:
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - custom-network
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+    networks:
+      - custom-network
 
   database:
     image: mysql:8.0.23
@@ -14,17 +37,26 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=book_store_db
+    networks:
+      - custom-network
 
-#  book-store-app:
-#    image: book-store-app:0.0.1
-#    container_name: book-store-app
-#    environment:
-#      DATABASE_HOSTNAME: database
-#    restart: on-failure
-#    ports:
-#      - 8002:8002
-#    depends_on:
-#      - database
+  book-store-app:
+    image: book-user-store:0.0.1
+    container_name: book-store-app
+    environment:
+      DATABASE_HOSTNAME: database
+    restart: on-failure
+    ports:
+      - 8002:8002
+    depends_on:
+      - database
+      - kafka
+    networks:
+      - custom-network
 
 volumes:
   mysql-data:
+
+networks:
+  custom-network:
+    driver: bridge

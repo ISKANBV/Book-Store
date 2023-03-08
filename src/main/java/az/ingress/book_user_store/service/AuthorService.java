@@ -1,17 +1,40 @@
 package az.ingress.book_user_store.service;
 
+import az.ingress.book_user_store.domain.Author;
 import az.ingress.book_user_store.dto.AuthorDTO;
+import az.ingress.book_user_store.repository.AuthorRepository;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface AuthorService {
+@AllArgsConstructor
+public class AuthorService implements GenericService<AuthorDTO> {
+    private final AuthorRepository authorRepository;
+    private final ModelMapper mapper;
 
-    void save(AuthorDTO dto);
+    @Override
+    public void save(AuthorDTO dto) {
+        Author author = new Author();
+        author.setName(dto.getName());
+        authorRepository.save(author);
+    }
 
-    List<AuthorDTO> findAll();
+    @Override
+    public List<AuthorDTO> findAll() {
+        return mapper.map(authorRepository.findAll(), new TypeToken<List<AuthorDTO>>() {
+        }.getType());
+    }
 
-    AuthorDTO findById(Integer id);
+    @Override
+    public AuthorDTO findById(Integer id) {
+        return mapper.map(authorRepository.findById(id).orElseThrow(), AuthorDTO.class);
+    }
 
-    void delete(Integer id);
+    @Override
+    public void delete(Integer id) {
+        authorRepository.deleteById(id);
+    }
 }

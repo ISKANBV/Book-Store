@@ -1,6 +1,6 @@
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+//import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+//import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+//import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 plugins {
     id 'java'
@@ -26,8 +26,6 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.3'
-
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
@@ -36,13 +34,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-//    compileOnly 'org.hibernate:hibernate-jpamodelgen'
+    compileOnly 'org.hibernate:hibernate-jpamodelgen'
 
-    compileOnly group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: '6.0.1.Final', ext: 'pom'
-
-//    annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: '6.1.7.Final', ext: 'pom'
-
-//    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
+    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
     implementation "org.modelmapper:modelmapper:$modelmapperVersion"
 
@@ -62,7 +56,6 @@ dependencies {
 
     implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.5'
 
-    // https://mvnrepository.com/artifact/org.zalando/problem-spring-web
     implementation group: 'org.zalando', name: 'problem-spring-web', version: '0.27.0'
 
     implementation "junit:junit:$junitVersion"
@@ -79,45 +72,33 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-def hash = 'git rev-parse --short HEAD'.execute().text.trim() //tag
-version = "$projectVersion.$hash"
-
-task dockerFile(type: Dockerfile, dependsOn: assemble) {
-//    destFile.set(project.file('build/libs/Dockerfile'))
-    destFile.set(project.file('Dockerfile'))
-    from "alpine:$alpineVersion"
-    runCommand 'apk add --no-cache openjdk11'
-    copyFile "build/libs/${project.name}-${project.version}.jar", '/app/'
-    workingDir '/app/'
-    entryPoint 'java'
-    defaultCommand '-jar', "/app/${project.name}-${project.version}.jar"
-}
-
-task dockerBuild(type: DockerBuildImage, dependsOn: dockerFile) {
-//    inputDir.set(file("$projectDir/build/libs/."))
-    inputDir.set(file("$projectDir/."))
-    doLast {
-        println("creatig image: $dockerRepoUrl/lms-${project.name}:$version")
-    }
-    images.add("$dockerRepoUrl/lms3-${project.name}:$version")
-}
-
-task dockerPush(type: DockerPushImage, dependsOn: dockerBuild) {
-    images.add("$dockerRepoUrl/lms3-${project.name}:$version")
-
-    registryCredentials.setUsername("$dockerHubUsername")
-    registryCredentials.setPassword("$dockerHubPassword")
-    registryCredentials.setEmail("$dockerHubEmail")
-}
-
-//ext
-//        {
-//            // Directory for generated main Java soures.
-//            generatedMainJava = "${buildDir}/generated/main/java"
-//        }
+//def hash = 'git rev-parse --short HEAD'.execute().text.trim() //tag
+//version = "$projectVersion.$hash"
 //
-//sourceSets
-//        {
-//            // Add generated sources directory.
-//            main.java.srcDir generatedMainJava
-//        }
+//task dockerFile(type: Dockerfile, dependsOn: assemble) {
+////    destFile.set(project.file('build/libs/Dockerfile'))
+//    destFile.set(project.file('Dockerfile'))
+//    from "alpine:$alpineVersion"
+//    runCommand 'apk add --no-cache openjdk17'
+//    copyFile "build/libs/${project.name}-${project.version}.jar", '/app/'
+//    workingDir '/app/'
+//    entryPoint 'java'
+//    defaultCommand '-jar', "/app/${project.name}-${project.version}.jar"
+//}
+//
+//task dockerBuild(type: DockerBuildImage, dependsOn: dockerFile) {
+//    inputDir.set(file("$projectDir/."))
+//    println("salam")
+//    doLast {
+//        println("creatig image: $dockerRepoUrl/book-store-${project.name}:$version")
+//    }
+//    images.add("$dockerRepoUrl/book-store-${project.name}:$version")
+//}
+//
+//task dockerPush(type: DockerPushImage, dependsOn: dockerBuild) {
+//    images.add("$dockerRepoUrl/book-store-${project.name}:$version")
+//
+//    registryCredentials.setUsername("$dockerHubUsername")
+//    registryCredentials.setPassword("$dockerHubPassword")
+//    registryCredentials.setEmail("$dockerHubEmail")
+//}

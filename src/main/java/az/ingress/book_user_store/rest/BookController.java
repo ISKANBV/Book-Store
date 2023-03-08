@@ -2,22 +2,16 @@ package az.ingress.book_user_store.rest;
 
 import az.ingress.book_user_store.dto.BookDTO;
 import az.ingress.book_user_store.dto.BookSpecDTO;
-import az.ingress.book_user_store.errors.ForeignKeyException;
 import az.ingress.book_user_store.service.BookService;
 import az.ingress.book_user_store.service.UserService;
 import java.math.BigDecimal;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,45 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/books")
-public class BookController {
+public class BookController extends GenericController<BookDTO> {
 
     private final BookService bookService;
     private final UserService userService;
 
-    @Autowired
     public BookController(BookService bookService, UserService userService) {
+        super(bookService);
         this.bookService = bookService;
         this.userService = userService;
-    }
-
-    @GetMapping
-    public ResponseEntity<?> findAll()
-    {
-        return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id)
-    {
-        return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody BookDTO dto)
-    {
-        bookService.save(dto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id)
-    {
-        try {
-            bookService.delete(id);
-        } catch (DataIntegrityViolationException exp) {
-            throw new ForeignKeyException(id);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/by_publisher/{publisherId}")
