@@ -44,9 +44,11 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
     implementation "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
 
-    implementation("org.liquibase:liquibase-core:$liquibaseVersion") {
-        exclude group: 'ch.qos.logback'
-    }
+//    implementation("org.liquibase:liquibase-core:$liquibaseVersion") {
+//        exclude group: 'ch.qos.logback'
+//    }
+    implementation 'org.liquibase:liquibase-core'
+
 
     runtimeOnly 'mysql:mysql-connector-java'
 

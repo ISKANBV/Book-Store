@@ -13,7 +13,7 @@ databaseChangeLog:
                     primaryKey: true
                     primaryKeyName: roles_pk
                   name: id
-                  type: BIGINT
+                  type: INT
               - column:
                   constraints:
                     nullable: false

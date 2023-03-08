@@ -37,22 +37,23 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=book_store_db
-    networks:
-      - custom-network
-
-  book-store-app:
-    image: book-user-store:0.0.1
-    container_name: book-store-app
-    environment:
-      DATABASE_HOSTNAME: database
-    restart: on-failure
-    ports:
-      - 8002:8002
     depends_on:
-      - database
       - kafka
     networks:
       - custom-network
+
+#  book-store-app:
+#    image: book-user-store:0.0.1
+#    container_name: book-store-app
+#    environment:
+#      DATABASE_HOSTNAME: database
+#    restart: on-failure
+#    ports:
+#      - 8002:8002
+#    depends_on:
+#      - database
+#    networks:
+#      - custom-network
 
 volumes:
   mysql-data:

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: book-store-app
-          image: qametmammadli/book-store-app:1.0.1
+          image: ismayilnebiyev/book-store-app:1.0.1
           ports:
             - containerPort: 8002
           env:

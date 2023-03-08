@@ -5,11 +5,11 @@
 ![DB Image 1](https://github.com/qametmammadli/book-store/blob/master/book-store-DATABASE.PNG)
 
 ## Tech Stack
-- Maven
+- Gradle
 - Java 17
 - Spring BOOT (Web, Security, Data JPA)
 - JPA Specification
-- MySQL 5.7
+- MySQL 8.0.23
 - Liquibase
 - JUnit & Mockito
 - ModelMapper
