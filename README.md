@@ -22,7 +22,7 @@
 ##### After Cloning project, Open your favorite Terminal in root directory and run these commands.
  First step:
  
-    mvn clean install
+    ./gradlew clean build
  
  Second step:
     
