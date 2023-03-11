@@ -14,6 +14,18 @@
 					"item": [
 						{
 							"name": "Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.environment.set(\"token\", jsonData.accessToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -46,11 +58,21 @@
 						{
 							"name": "Create User",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"first_name\":\"First name\",\r\n    \"last_name\":\"Last name\",\r\n    \"username\":\"test\",\r\n    \"email\":\"test@test.com\",\r\n    \"password\":\"test12\"\r\n}",
+									"raw": "{\r\n    \"firstName\":\"First name\",\r\n    \"lastName\":\"Last name\",\r\n    \"username\":\"test\",\r\n    \"email\":\"test@test.com\",\r\n    \"password\":\"test12\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -72,6 +94,16 @@
 						{
 							"name": "Delete User",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "DELETE",
 								"header": [],
 								"body": {
@@ -102,6 +134,16 @@
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -128,6 +170,16 @@
 						{
 							"name": "Add Publisher Role",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PUT",
 								"header": [],
 								"body": {
@@ -161,11 +213,21 @@
 						{
 							"name": "Create Book",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\":\"Clean Code\",\r\n    \"description\":\"clean code principles and design patterns\",\r\n    \"author_ids\":[1],\r\n    \"price\":20.99\r\n}",
+									"raw": "{\r\n    \"name\":\"Clean Code\",\r\n    \"description\":\"clean code principles and design patterns\",\r\n    \"authorIds\":[1],\r\n    \"price\":20.99\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -190,6 +252,16 @@
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -221,6 +293,16 @@
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -251,6 +333,16 @@
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -310,38 +402,21 @@
 							"response": []
 						},
 						{
-							"name": "Delete Book",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/books/2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"books",
-										"2"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Book All",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -368,11 +443,21 @@
 						{
 							"name": "Update Book",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\":\"Clean architecture\",\r\n    \"description\":\"Clean arch\",\r\n    \"author_ids\":[1],\r\n    \"price\":35.01\r\n}",
+									"raw": "{\r\n    \"name\":\"Clean architecture\",\r\n    \"description\":\"Clean arch\",\r\n    \"authorIds\":[1],\r\n    \"price\":35.01\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -398,7 +483,54 @@
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/books/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"books",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Book",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -430,6 +562,16 @@
 						{
 							"name": "Create Book Author",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -459,6 +601,16 @@
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -485,6 +637,16 @@
 						{
 							"name": "Delete Author",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "DELETE",
 								"header": [],
 								"body": {
