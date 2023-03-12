@@ -31,7 +31,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     compileOnly 'org.hibernate:hibernate-jpamodelgen'
-
     annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 
     implementation "org.modelmapper:modelmapper:$modelmapperVersion"

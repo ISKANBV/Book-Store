@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin
-    url: jdbc:mysql://${DATABASE_HOSTNAME:localhost}:3306/book_store_db?createIfDatabaseNotExist=true
+    url: jdbc:mysql://${DATABASE_HOSTNAME:localhost}:3306/book_store_db?createDatabaseIfNotExist=true
     username: root
   jpa:
     hibernate:
