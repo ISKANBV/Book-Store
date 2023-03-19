@@ -13,7 +13,7 @@ databaseChangeLog:
                     primaryKey: true
                     primaryKeyName: users_pk
                   name: id
-                  type: INT
+                  type: BIGINT
               - column:
                   constraints:
                     nullable: false

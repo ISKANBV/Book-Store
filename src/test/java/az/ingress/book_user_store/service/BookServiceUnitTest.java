@@ -3,6 +3,7 @@ package az.ingress.book_user_store.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -65,12 +66,12 @@ class BookServiceUnitTest {
         bookDTO.setName("test book");
         bookDTO.setDescription("test book description");
         bookDTO.setPrice(BigDecimal.ONE);
-        bookDTO.setAuthorIds(new HashSet<>(Collections.singleton(1)));
+        bookDTO.setAuthorIds(new HashSet<>(Collections.singleton(1L)));
 
         book = new Book();
         book.setName(bookDTO.getName());
         book.setDescription(bookDTO.getDescription());
-        book.setPublisherId(1);
+        book.setPublisherId(1L);
         book.setPrice(BigDecimal.ONE);
     }
 
@@ -120,16 +121,16 @@ class BookServiceUnitTest {
 
     @Test
     void shouldGetOneBook() {
-        when(bookRepository.findById(anyInt())).thenReturn(Optional.of(book));
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(book));
         when(mapper.map(book, BookDTO.class)).thenReturn(bookDTO);
 
-        BookDTO fromDB = bookService.findById(anyInt());
+        BookDTO fromDB = bookService.findById(anyLong());
 
         assertEquals(book.getName(), fromDB.getName());
         assertEquals(book.getDescription(), fromDB.getDescription());
         assertEquals(book.getPrice(), fromDB.getPrice());
 
-        verify(bookRepository).findById(anyInt());
+        verify(bookRepository).findById(anyLong());
         verify(mapper).map(book, BookDTO.class);
         verifyNoMoreInteractions(bookRepository, mapper);
         verifyNoInteractions(userService);
@@ -145,18 +146,18 @@ class BookServiceUnitTest {
             add(bookDTO);
         }};
 
-        when(bookRepository.findByPublisherId(anyInt())).thenReturn(books);
+        when(bookRepository.findByPublisherId(anyLong())).thenReturn(books);
 
         when(mapper.map(books,
                 new TypeToken<List<BookDTO>>() {
                 }.getType())
         ).thenReturn(bookDTOS);
 
-        List<BookDTO> all = bookService.findAllByPublisher(anyInt());
+        List<BookDTO> all = bookService.findAllByPublisher(anyLong());
 
         assertEquals(1, all.size());
 
-        verify(bookRepository).findByPublisherId(anyInt());
+        verify(bookRepository).findByPublisherId(anyLong());
 
         verify(mapper).map(books,
                 new TypeToken<List<BookDTO>>() {
@@ -169,7 +170,7 @@ class BookServiceUnitTest {
 
     @Test
     void shouldUpdateBook() {
-        when(bookRepository.findById(anyInt())).thenReturn(Optional.of(book));
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(book));
         when(bookRepository.save(any(Book.class))).thenReturn(book);
 
         UserDTO userDTO = new UserDTO();
@@ -182,13 +183,13 @@ class BookServiceUnitTest {
         bookDTO.setDescription("update");
         bookDTO.setPrice(BigDecimal.TEN);
 
-        bookService.update(anyInt(), bookDTO);
+        bookService.update(anyLong(), bookDTO);
 
         assertEquals("update", book.getName());
         assertEquals("update", book.getDescription());
         assertEquals(BigDecimal.TEN, book.getPrice());
 
-        verify(bookRepository).findById(anyInt());
+        verify(bookRepository).findById(anyLong());
         verify(bookRepository).save(any(Book.class));
         verify(userService).findByUsername(anyString());
         verifyNoMoreInteractions(bookRepository, userService);
@@ -196,7 +197,7 @@ class BookServiceUnitTest {
 
     @Test
     void shouldThrowAccessDeniedException_whenTryToUpdateOtherPublisherBook() {
-        when(bookRepository.findById(anyInt())).thenReturn(Optional.of(book));
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(book));
 
         UserDTO userDTO = new UserDTO();
         userDTO.setId(book.getPublisherId() + 234);
@@ -205,20 +206,20 @@ class BookServiceUnitTest {
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("test", new ArrayList<>()));
 
         assertThrows(AccessDeniedException.class, () ->
-                bookService.update(anyInt(), bookDTO));
+                bookService.update(anyLong(), bookDTO));
 
-        verify(bookRepository).findById(anyInt());
+        verify(bookRepository).findById(anyLong());
         verify(userService).findByUsername(anyString());
         verifyNoMoreInteractions(bookRepository, userService);
     }
 
     @Test
     void shouldDeleteBook() {
-        doNothing().when(bookRepository).deleteById(anyInt());
+        doNothing().when(bookRepository).deleteById(anyLong());
 
-        bookService.delete(anyInt());
+        bookService.delete(anyLong());
 
-        verify(bookRepository).deleteById(anyInt());
+        verify(bookRepository).deleteById(anyLong());
         verifyNoMoreInteractions(bookRepository);
     }
 }

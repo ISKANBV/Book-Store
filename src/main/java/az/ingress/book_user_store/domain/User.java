@@ -19,7 +19,7 @@ import lombok.Data;
 public class User extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String firstName;
 

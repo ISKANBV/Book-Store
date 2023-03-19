@@ -8,7 +8,7 @@ public interface GenericService<DTO extends AbstractDTO> {
 
     List<DTO> findAll();
 
-    DTO findById(Integer id);
+    DTO findById(Long id);
 
-    void delete(Integer id);
+    void delete(Long id);
 }

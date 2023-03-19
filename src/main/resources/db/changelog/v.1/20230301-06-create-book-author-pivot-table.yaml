@@ -10,12 +10,12 @@ databaseChangeLog:
                     constraints:
                       nullable: false
                     name: book_id
-                    type: INT
+                    type: BIGINT
                 - column:
                     constraints:
                       nullable: false
                     name: author_id
-                    type: INT
+                    type: BIGINT
 
 
          - addForeignKeyConstraint:

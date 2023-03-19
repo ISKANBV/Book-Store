@@ -10,8 +10,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint, AccessDeniedHandler, Serializable
-{
+public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint, AccessDeniedHandler, Serializable {
     private final HandlerExceptionResolver resolver;
 
     private static final long serialVersionUID = 1L;

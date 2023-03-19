@@ -18,16 +18,16 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Integer>, JpaSpecificationExecutor<Book> {
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 
     @EntityGraph(attributePaths = {"publisher", "authors"}, type = EntityGraph.EntityGraphType.LOAD)
-    List<Book> findByPublisherId(Integer publisherId);
+    List<Book> findByPublisherId(Long publisherId);
 
     @EntityGraph(attributePaths = {"publisher", "authors"}, type = EntityGraph.EntityGraphType.LOAD)
     List<Book> findAll();
 
     @EntityGraph(attributePaths = {"publisher", "authors"}, type = EntityGraph.EntityGraphType.LOAD)
-    Optional<Book> findById(Integer id);
+    Optional<Book> findById(Long id);
 
     @EntityGraph(attributePaths = {"publisher", "authors"}, type = EntityGraph.EntityGraphType.LOAD)
     default Page<Book> findAllBySpec(BookSpecDTO bookSpecDTO, Pageable pageable) {

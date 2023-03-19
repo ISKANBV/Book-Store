@@ -10,12 +10,12 @@ databaseChangeLog:
                     constraints:
                       nullable: false
                     name: user_id
-                    type: INT
+                    type: BIGINT
                 - column:
                     constraints:
                       nullable: false
                     name: role_id
-                    type: INT
+                    type: BIGINT
 
 
          - addForeignKeyConstraint:

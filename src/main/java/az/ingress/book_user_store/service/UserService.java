@@ -40,11 +40,11 @@ public class UserService implements GenericService<UserDTO> {
     }
 
     @Override
-    public UserDTO findById(Integer id) {
+    public UserDTO findById(Long id) {
         return userRepository.findById(id).map(UserDTO::new).orElseThrow();
     }
 
-    public void addPublisherRole(Integer id) {
+    public void addPublisherRole(Long id) {
         User user = userRepository.findById(id).orElseThrow();
         user.getRoles().add(roleRepository.findByName(RoleName.PUBLISHER));
         userRepository.save(user);
@@ -55,7 +55,7 @@ public class UserService implements GenericService<UserDTO> {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         userRepository.findById(id).ifPresentOrElse(user -> {
             if (user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).contains(RoleName.ADMIN))
                 throw new AccessDeniedException("Admin can't be deleted");

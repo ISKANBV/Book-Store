@@ -61,16 +61,16 @@ public class BookService implements GenericService<BookDTO> {
     }
 
     @Override
-    public BookDTO findById(Integer id) {
+    public BookDTO findById(Long id) {
         return mapper.map(bookRepository.findById(id).orElseThrow(), BookDTO.class);
     }
 
-    public List<BookDTO> findAllByPublisher(Integer publisherId) {
+    public List<BookDTO> findAllByPublisher(Long publisherId) {
         return mapper.map(bookRepository.findByPublisherId(publisherId), new TypeToken<List<BookDTO>>() {
         }.getType());
     }
 
-    public void update(Integer id, BookDTO dto) {
+    public void update(Long id, BookDTO dto) {
         Book book = bookRepository.findById(id).orElseThrow();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDTO username = userService.findByUsername(authentication.getName());
@@ -95,7 +95,7 @@ public class BookService implements GenericService<BookDTO> {
 
     @Override
     @Transactional
-    public void delete(Integer id) {
+    public void delete(Long id) {
         bookRepository.deleteById(id);
     }
 }

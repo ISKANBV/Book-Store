@@ -32,7 +32,7 @@ public class DataSeeder implements ApplicationRunner {
     public void run(ApplicationArguments args) {
 
         BookDTO testBook = BookDTO.builder()
-                .id(1)
+                .id(1L)
                 .name("test book")
                 .build();
 

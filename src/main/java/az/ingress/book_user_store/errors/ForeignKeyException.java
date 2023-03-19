@@ -8,9 +8,9 @@ import org.zalando.problem.AbstractThrowableProblem;
 @Getter
 @ResponseStatus(code = HttpStatus.CONFLICT, value = HttpStatus.CONFLICT)
 public class ForeignKeyException extends AbstractThrowableProblem {
-    private final Integer id;
+    private final Long id;
 
-    public ForeignKeyException(Integer id) {
+    public ForeignKeyException(Long id) {
         this.id = id;
     }
 }

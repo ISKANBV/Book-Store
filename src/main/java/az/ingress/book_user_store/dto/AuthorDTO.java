@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AuthorDTO extends AbstractDTO {
-    private Integer id;
+    private Long id;
 
     @NotEmpty
     @Size(min = 1, max = 100)

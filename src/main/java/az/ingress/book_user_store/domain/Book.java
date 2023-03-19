@@ -14,7 +14,7 @@ public class Book extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -23,7 +23,7 @@ public class Book extends AbstractEntity {
     private BigDecimal price;
 
     @Column(name = "publisher_id")
-    private Integer publisherId;
+    private Long publisherId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id", insertable = false, updatable = false)

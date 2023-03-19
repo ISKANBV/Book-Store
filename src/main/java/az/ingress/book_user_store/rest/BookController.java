@@ -32,12 +32,12 @@ public class BookController extends GenericController<BookDTO> {
     }
 
     @GetMapping("/by_publisher/{publisherId}")
-    public ResponseEntity<?> findByPublisher(@PathVariable Integer publisherId) {
+    public ResponseEntity<?> findByPublisher(@PathVariable Long publisherId) {
         return ResponseEntity.ok(bookService.findAllByPublisher(publisherId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody BookDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody BookDTO dto) {
         bookService.update(id, dto);
         return ResponseEntity.ok().build();
     }
@@ -45,7 +45,7 @@ public class BookController extends GenericController<BookDTO> {
     @GetMapping("/published_by_me")
     public ResponseEntity<?> findByMe() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Integer publisherId = userService.findByUsername(authentication.getName()).getId();
+        Long publisherId = userService.findByUsername(authentication.getName()).getId();
         return ResponseEntity.ok(bookService.findAllByPublisher(publisherId));
     }
 

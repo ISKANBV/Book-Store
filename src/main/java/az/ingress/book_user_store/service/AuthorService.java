@@ -29,12 +29,12 @@ public class AuthorService implements GenericService<AuthorDTO> {
     }
 
     @Override
-    public AuthorDTO findById(Integer id) {
+    public AuthorDTO findById(Long id) {
         return mapper.map(authorRepository.findById(id).orElseThrow(), AuthorDTO.class);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         authorRepository.deleteById(id);
     }
 }

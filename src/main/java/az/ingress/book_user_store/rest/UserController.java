@@ -20,7 +20,7 @@ public class UserController extends GenericController<UserDTO> {
     }
 
     @PutMapping("/{id}/add_publisher_role")
-    public ResponseEntity<Void> addPublisherRole(@PathVariable Integer id) {
+    public ResponseEntity<Void> addPublisherRole(@PathVariable Long id) {
         userService.addPublisherRole(id);
         return ResponseEntity.ok().build();
     }

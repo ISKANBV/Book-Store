@@ -3,6 +3,7 @@ package az.ingress.book_user_store.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -73,7 +74,7 @@ public class UserServiceUnitTest {
         userDTO.setPassword("1test1");
 
         user = new User();
-        user.setId(1);
+        user.setId(1L);
         user.setEmail(userDTO.getEmail());
         user.setUsername(userDTO.getUsername());
         user.setFirstName(userDTO.getFirstName());
@@ -117,16 +118,16 @@ public class UserServiceUnitTest {
 
     @Test
     void shouldGetOneUser() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
-        UserDTO fromDB = userService.findById(anyInt());
+        UserDTO fromDB = userService.findById(anyLong());
 
         assertEquals(user.getUsername(), fromDB.getUsername());
         assertEquals(user.getEmail(), fromDB.getEmail());
         assertEquals(user.getFirstName(), fromDB.getFirstName());
         assertEquals(user.getLastName(), fromDB.getLastName());
 
-        verify(userRepository).findById(anyInt());
+        verify(userRepository).findById(anyLong());
         verifyNoMoreInteractions(userRepository);
         verifyNoInteractions(roleRepository);
         verifyNoInteractions(passwordEncoder);
@@ -134,13 +135,13 @@ public class UserServiceUnitTest {
 
     @Test
     void shouldThrowError_whenTryToGetOneUser_NotExist() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class,
-                () -> userService.findById(anyInt())
+                () -> userService.findById(anyLong())
         );
 
-        verify(userRepository).findById(anyInt());
+        verify(userRepository).findById(anyLong());
         verifyNoMoreInteractions(userRepository);
         verifyNoInteractions(roleRepository);
         verifyNoInteractions(passwordEncoder);
@@ -162,13 +163,13 @@ public class UserServiceUnitTest {
 
     @Test
     void shouldThrowNotFoundException_whenTryToAddPublisherRoleToUser_NotExistInDB() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class,
-                () -> userService.addPublisherRole(anyInt())
+                () -> userService.addPublisherRole(anyLong())
         );
 
-        verify(userRepository).findById(anyInt());
+        verify(userRepository).findById(anyLong());
         verifyNoMoreInteractions(userRepository);
         verifyNoInteractions(roleRepository);
         verifyNoInteractions(passwordEncoder);

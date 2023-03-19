@@ -22,7 +22,7 @@ import lombok.ToString;
 public class BookDTO extends AbstractDTO implements Serializable {
 
     private static final long serialVersionUID = -4209524908575754744L;
-    private Integer id;
+    private Long id;
 
     @NotEmpty
     @Size(min = 1, max = 255)
@@ -31,7 +31,7 @@ public class BookDTO extends AbstractDTO implements Serializable {
     private String description;
 
     @NotEmpty
-    private Set<Integer> authorIds;
+    private Set<Long> authorIds;
 
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 5, fraction = 2)

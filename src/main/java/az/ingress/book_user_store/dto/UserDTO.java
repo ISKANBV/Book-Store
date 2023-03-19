@@ -17,7 +17,7 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO extends AbstractDTO {
 
-    private Integer id;
+    private Long id;
 
     @NotEmpty
     @Size(min = 1, max = 50)

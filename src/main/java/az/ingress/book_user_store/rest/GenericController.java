@@ -28,7 +28,7 @@ public abstract class GenericController<DTO extends AbstractDTO> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id)
+    public ResponseEntity<?> findById(@PathVariable Long id)
     {
         return new ResponseEntity<>(genericService.findById(id), HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public abstract class GenericController<DTO extends AbstractDTO> {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id)
+    public ResponseEntity<?> delete(@PathVariable Long id)
     {
         try {
             genericService.delete(id);
